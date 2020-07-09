@@ -1,5 +1,7 @@
-# Acab
+# 1312ch
+This engine is still under construction. It also is my first project using Phoenix and Phoenix LiveView so don't expect high quality code.
 
+# Instructions
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
