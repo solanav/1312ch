@@ -11,10 +11,6 @@ defmodule AcabWeb.BoardLive.Show do
 
   @impl true
   def handle_params(params, __url, socket) do
-    IO.puts socket.assigns.live_action
-    IO.puts socket.assigns.live_action
-    IO.inspect params
-    IO.inspect params
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 

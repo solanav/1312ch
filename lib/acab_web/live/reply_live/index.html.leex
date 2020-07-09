@@ -1,0 +1,37 @@
+<h1>Listing Replies</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, AcabWeb.ReplyLive.FormComponent,
+    id: @reply.id || :new,
+    title: @page_title,
+    action: @live_action,
+    reply: @reply,
+    return_to: Routes.reply_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Author</th>
+      <th>Body</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="replies">
+    <%= for reply <- @replies do %>
+      <tr id="reply-<%= reply.id %>">
+        <td><%= reply.author %></td>
+        <td><%= reply.body %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.reply_show_path(@socket, :show, reply) %></span>
+          <span><%= live_patch "Edit", to: Routes.reply_index_path(@socket, :edit, reply) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: reply.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Reply", to: Routes.reply_index_path(@socket, :new) %></span>

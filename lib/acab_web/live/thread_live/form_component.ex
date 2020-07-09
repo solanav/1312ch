@@ -41,15 +41,10 @@ defmodule AcabWeb.ThreadLive.FormComponent do
   end
 
   defp save_thread(socket, :new, thread_params) do
-    IO.inspect thread_params
-    IO.inspect thread_params
-    IO.inspect thread_params
-
     case Channel.create_thread(thread_params) do
       {:ok, _thread} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Thread created successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

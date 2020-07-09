@@ -1,3 +1,13 @@
+<%= if @live_action == :new_reply do %>
+  <%= live_modal @socket, AcabWeb.ReplyLive.FormComponent,
+    id: @reply.id || :new,
+    title: @page_title,
+    action: :new,
+    reply: @reply,
+    thread_id: @thread.id,
+    return_to: Routes.thread_show_path(@socket, :show, @thread.id) %>
+<% end %>
+
 <div class="boardTitle">
   /<%= @board.url %>/ - <%= @board.title %>
 </div>
@@ -5,7 +15,7 @@
 <hr>
 <div class="newthread">
   <span>[<%= live_redirect "Return", to: Routes.board_show_path(@socket, :show, @board.id) %>]</span>
-  <span>[<%= live_patch "Post a reply", to: Routes.thread_index_path(@socket, :new) %>]</span>
+  <span>[<%= live_patch "Post a reply", to: Routes.thread_show_path(@socket, :new_reply, @thread.id) %>]</span>
 </div>
 <hr>
 
@@ -21,6 +31,23 @@
         <%= @thread.body %>
       </blockquote>
     </div>
+
+    <hr>
+
+    <%= for reply <- @replies do %>
+    <span class="sideArrows">>></span>
+    <div class="postReply">
+      <input type="checkbox">
+      <span class="threadAuthor"><%= reply.author %></span>
+      <span class="threadDatetime"><%= reply.inserted_at %></span>
+      <span class="threadId">No.<%= reply.id %></span>
+      
+      <blockquote>
+        <%= reply.body %>
+      </blockquote>
+    </div>
+    <hr>
+  <% end %>
 </div>
 
 <div>
