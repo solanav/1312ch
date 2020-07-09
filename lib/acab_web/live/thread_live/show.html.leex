@@ -1,0 +1,28 @@
+<div class="boardTitle">
+  /<%= @board.url %>/ - <%= @board.title %>
+</div>
+
+<hr>
+
+<div class="newthread">
+  <span>[<%= live_patch "Post a reply", to: Routes.thread_index_path(@socket, :new) %>]</span>
+</div>
+<hr>
+
+<div>
+  <div class="postInfo">
+      <input type="checkbox">
+      <span class="threadTitle"><%= @thread.title %></span>
+      <span class="threadAuthor"><%= @thread.author %></span>
+      <span class="threadDatetime"><%= @thread.inserted_at %></span>
+      <span class="threadId">No.<%= @thread.id %></span>
+      
+      <blockquote>
+        <%= @thread.body %>
+      </blockquote>
+    </div>
+</div>
+
+<div>
+  
+</div>
