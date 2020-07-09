@@ -10,15 +10,15 @@ defmodule AcabWeb.ThreadLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, thi, socket) do
+  def handle_params(%{"id" => id}, _, socket) do
     thread = Channel.get_thread!(id)
-    IO.inspect thi
-    
+    board = Channel.get_board!(thread.board_id)
+
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:thread, thread)
-     |> assign(:board, %Board{url: "m", title: "general"})}
+     |> assign(:board, board)}
   end
 
   defp page_title(:show), do: "Show Thread"

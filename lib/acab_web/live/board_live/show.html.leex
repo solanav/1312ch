@@ -1,3 +1,13 @@
+<%= if @live_action == :new_thread do %>
+  <%= live_modal @socket, AcabWeb.ThreadLive.FormComponent,
+    id: @thread.id || :new,
+    title: @page_title,
+    action: @live_action,
+    thread: @thread,
+    board_id: @board.id,
+    return_to: Routes.board_show_path(@socket, :show, @board.id) %>
+<% end %>
+
 <div class="boardTitle">
   /<%= @board.url %>/ - <%= @board.title %>
 </div>
@@ -5,8 +15,10 @@
 <hr>
 
 <div class="newthread">
-  <span>[<%= live_patch "Start a new thread", to: Routes.thread_index_path(@socket, :new, %{"board_id" => @board.id}) %>]</span>
+  <span>[<%= live_redirect "Return", to: Routes.board_index_path(@socket, :index) %>]</span>
+  <span>[<%= live_patch "Start a new thread", to: Routes.board_show_path(@socket, :new_thread, @board.id) %>]</span>
 </div>
+
 <hr>
 
 <div>

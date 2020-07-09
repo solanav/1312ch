@@ -3,8 +3,8 @@
 </div>
 
 <hr>
-
 <div class="newthread">
+  <span>[<%= live_redirect "Return", to: Routes.board_show_path(@socket, :show, @board.id) %>]</span>
   <span>[<%= live_patch "Post a reply", to: Routes.thread_index_path(@socket, :new) %>]</span>
 </div>
 <hr>

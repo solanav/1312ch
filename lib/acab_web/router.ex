@@ -26,6 +26,7 @@ defmodule AcabWeb.Router do
 
     live "/boards/:id", BoardLive.Show, :show
     live "/boards/:id/show/edit", BoardLive.Show, :edit
+    live "/boards/:id/new_thread", BoardLive.Show, :new_thread
 
     # Threads
     live "/threads", ThreadLive.Index, :index
