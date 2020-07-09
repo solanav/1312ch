@@ -6,7 +6,8 @@
     title: @page_title,
     action: @live_action,
     thread: @thread,
-    return_to: Routes.thread_index_path(@socket, :index) %>
+    board_id: @board_id,
+    return_to: Routes.board_index_path(@socket, :index) %>
 <% end %>
 
 <table>

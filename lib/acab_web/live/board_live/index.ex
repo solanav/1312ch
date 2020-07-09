@@ -20,7 +20,7 @@ defmodule AcabWeb.BoardLive.Index do
     |> assign(:board, Channel.get_board!(id))
   end
 
-  defp apply_action(socket, :new, _params) do
+  defp apply_action(socket, :new, _params) do    
     socket
     |> assign(:page_title, "New Board")
     |> assign(:board, %Board{})

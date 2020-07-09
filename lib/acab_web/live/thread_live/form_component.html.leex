@@ -18,5 +18,7 @@
   <%= textarea f, :body %>
   <%= error_tag f, :body %>
 
-  <%= submit "Save", phx_disable_with: "Saving..." %>
+  <%= hidden_input f, :board_id, value: @board_id %>
+
+  <%= submit "Post", phx_disable_with: "Posting..." %>
 </form>

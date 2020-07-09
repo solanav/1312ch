@@ -3,7 +3,7 @@ defmodule Acab.Channel.Thread do
   import Ecto.Changeset
 
   schema "threads" do
-    field :author, :string
+    field :author, :string, default: "Anon"
     field :body, :string
     field :title, :string
     field :board_id, :id
@@ -14,7 +14,7 @@ defmodule Acab.Channel.Thread do
   @doc false
   def changeset(thread, attrs) do
     thread
-    |> cast(attrs, [:author, :title, :body])
-    |> validate_required([:author, :title, :body])
+    |> cast(attrs, [:author, :title, :body, :board_id])
+    |> validate_required([:author, :title, :body, :board_id])
   end
 end

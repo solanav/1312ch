@@ -20,9 +20,10 @@ defmodule AcabWeb.ThreadLive.Index do
     |> assign(:thread, Channel.get_thread!(id))
   end
 
-  defp apply_action(socket, :new, _params) do
+  defp apply_action(socket, :new, params) do
     socket
     |> assign(:page_title, "New Thread")
+    |> assign(:board_id, params["board_id"])
     |> assign(:thread, %Thread{})
   end
 

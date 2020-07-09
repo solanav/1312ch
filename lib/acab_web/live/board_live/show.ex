@@ -11,7 +11,10 @@ defmodule AcabWeb.BoardLive.Show do
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
     threads = Enum.filter(Channel.list_threads(), fn t ->
-      Integer.to_string(t.board_id) == id
+      case t.board_id do
+        nil -> False
+        _ -> Integer.to_string(t.board_id) == id
+      end
     end)
 
     {:noreply,
