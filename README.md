@@ -1,17 +1,17 @@
 # 1312ch
-This engine is still under construction. It also is my first project using Phoenix and Phoenix LiveView so don't expect high quality code.
+This engine is still under construction. It also is my first project using Phoenix and Phoenix LiveView so don't expect high quality code for now.
 
 Once the engine is in a more usable state and I learn to deploy phoenix applications this project will go live on https://1312ch.com
 
 # Images of the current version (this is not final)
 Home with list of boards:
-![Home with list of boards](https://i.imgur.com/Da95MMw.png)
+![Home with list of boards](https://i.imgur.com/5nrnNxJ.png)
 
 List of threads inside a board:
-![Home with list of boards](https://i.imgur.com/wImddjM.png)
+![Home with list of boards](https://i.imgur.com/FPhszYK.png)
 
 List of replies inside a thread:
-![Home with list of boards](https://i.imgur.com/yQeOu04.png)
+![Home with list of boards](https://i.imgur.com/zJmlbo0.png)
 
 # Instructions to start the server
 To start your Phoenix server:
