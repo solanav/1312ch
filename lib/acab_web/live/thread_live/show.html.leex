@@ -8,15 +8,19 @@
     return_to: Routes.thread_show_path(@socket, :show, @thread.id) %>
 <% end %>
 
-<div class="boardTitle">
-  /<%= @board.url %>/ - <%= @board.title %>
-</div>
+<span class="boardTitleMain">
+  <span class="boardListTitle">
+    /<%= @board.url %>/ - <%= @board.title %>
+  </span>
+</span>
 
 <hr>
+
 <div class="newthread">
   <span>[<%= live_redirect "Return", to: Routes.board_show_path(@socket, :show, @board.id) %>]</span>
   <span>[<%= live_patch "Post a reply", to: Routes.thread_show_path(@socket, :new_reply, @thread.id) %>]</span>
 </div>
+
 <hr>
 
 <div>
@@ -32,22 +36,19 @@
       </blockquote>
     </div>
 
-    <hr>
-
     <%= for reply <- @replies do %>
     <span class="sideArrows">>></span>
-    <div class="postReply">
-      <input type="checkbox">
-      <span class="threadAuthor"><%= reply.author %></span>
-      <span class="threadDatetime"><%= reply.inserted_at %></span>
-      <span class="threadId">No.<%= reply.id %></span>
-      
-      <blockquote>
-        <%= reply.body %>
-      </blockquote>
-    </div>
-    <hr>
-  <% end %>
+      <div class="postReply">
+        <input type="checkbox">
+        <span class="threadAuthor"><%= reply.author %></span>
+        <span class="threadDatetime"><%= reply.inserted_at %></span>
+        <span class="threadId">No.<%= reply.id %></span>
+        
+        <blockquote>
+          <%= reply.body %>
+        </blockquote>
+      </div>
+    <% end %>
 </div>
 
 <div>

@@ -1,9 +1,13 @@
 defmodule AcabWeb.PageLive do
   use AcabWeb, :live_view
 
+  alias Acab.Channel
+
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, query: "", results: %{})}
+    {:ok, socket
+    |> assign(query: "", results: %{})
+    |> assign(:boards, Channel.list_boards())}
   end
 
   @impl true

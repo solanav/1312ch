@@ -8,14 +8,14 @@
     return_to: Routes.board_show_path(@socket, :show, @board.id) %>
 <% end %>
 
-<div class="boardTitle">
-  /<%= @board.url %>/ - <%= @board.title %>
+<div class="boardTitleMain">
+  <span class="boardListTitle">
+    /<%= @board.url %>/ - <%= @board.title %>
+  </span>
 </div>
 
-<hr>
-
 <div class="newthread">
-  <span>[<%= live_redirect "Return", to: Routes.board_index_path(@socket, :index) %>]</span>
+  <span>[<%= live_redirect "Return", to: Routes.page_path(@socket, :index) %>]</span>
   <span>[<%= live_patch "Start new thread", to: Routes.board_show_path(@socket, :new_thread, @board.id) %>]</span>
 </div>
 

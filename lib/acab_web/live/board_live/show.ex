@@ -29,6 +29,32 @@ defmodule AcabWeb.BoardLive.Show do
     |> assign(:threads, threads)
   end
 
+  defp apply_action(socket, :show, %{"board_url" => url}) do
+    board = Enum.filter(Channel.list_boards(), fn b ->
+      IO.inspect b.url
+      IO.inspect url
+      b.url == url
+    end)
+    |> Enum.at(0)
+
+    threads = Enum.filter(Channel.list_threads(), fn t ->
+      IO.inspect t
+      IO.inspect board
+
+      case {t.board_id, board.id} do
+        {nil, _} -> False
+        {_, nil} -> False
+        _ -> t.board_id == board.id
+      end
+    end)
+
+    socket
+    |> assign(:page_title, page_title(socket.assigns.live_action))
+    |> assign(:board, board)
+    |> assign(:replies, [])
+    |> assign(:threads, threads)
+  end
+
   defp apply_action(socket, :new_thread, %{"id" => id}) do
     threads = Enum.filter(Channel.list_threads(), fn t ->
       case t.board_id do
