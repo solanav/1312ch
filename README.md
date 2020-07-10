@@ -1,6 +1,8 @@
 # 1312ch
 This engine is still under construction. It also is my first project using Phoenix and Phoenix LiveView so don't expect high quality code.
 
+Once the engine is in a more usable state and I learn to deploy phoenix applications this project will go live on https://1312ch.com
+
 # Images of the current version (this is not final)
 Home with list of boards:
 ![Home with list of boards](https://i.imgur.com/Da95MMw.png)
