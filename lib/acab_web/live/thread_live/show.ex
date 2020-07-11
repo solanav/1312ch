@@ -14,9 +14,13 @@ defmodule AcabWeb.ThreadLive.Show do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :show, %{"id" => id}) do
+  defp apply_action(socket, :show, %{"board_url" => board_url, "thread_id" => id}) do
     thread = Channel.get_thread!(id)
-    board = Channel.get_board!(thread.board_id)
+    
+    board = Enum.filter(Channel.list_boards(), fn b ->
+      b.url == board_url
+    end)
+    |> Enum.at(0)
 
     replies = Enum.filter(Channel.list_replies(), fn t ->
       case t.thread_id do

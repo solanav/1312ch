@@ -15,7 +15,7 @@
 </span>
 
 <div class="newthread">
-  <span>[<%= live_redirect "Return", to: Routes.board_show_path(@socket, :show, @board.id) %>]</span>
+  <span>[<%= live_redirect "Return", to: Routes.board_show_path(@socket, :show, @board.url) %>]</span>
   <span>[<%= live_patch "Post a reply", to: Routes.thread_show_path(@socket, :new_reply, @thread.id) %>]</span>
 </div>
 
