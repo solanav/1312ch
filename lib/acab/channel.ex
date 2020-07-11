@@ -38,6 +38,27 @@ defmodule Acab.Channel do
   def get_board!(id), do: Repo.get!(Board, id)
 
   @doc """
+  Gets a single board by url.
+
+  Raises `Ecto.NoResultsError` if the Board does not exist.
+
+  ## Examples
+
+      iex> get_board("b")
+      %Board{}
+
+      iex> get_board!("xaqe")
+      nil
+
+  """
+  def get_board(url) do
+    Enum.filter(list_boards(), fn b ->
+      b.url == url
+    end)
+    |> Enum.at(0, nil)
+  end
+
+  @doc """
   Creates a board.
 
   ## Examples
@@ -132,6 +153,28 @@ defmodule Acab.Channel do
 
   """
   def get_thread!(id), do: Repo.get!(Thread, id)
+
+  @doc """
+  Gets a list of threads of a board.
+
+  ## Examples
+
+      iex> get_threads(2)
+      [%Thread{}, %Thread{}, ]
+
+      iex> get_threads(785)
+      []
+
+  """
+  def get_threads(board_id) do
+    Enum.filter(list_threads(), fn t ->
+      case {t.board_id, board_id} do
+        {nil, _} -> False
+        {_, nil} -> False
+        _ -> t.board_id == board_id
+      end
+    end)
+  end
 
   @doc """
   Creates a thread.
