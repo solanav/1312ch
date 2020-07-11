@@ -15,47 +15,22 @@ defmodule AcabWeb.ThreadLive.Show do
   end
 
   defp apply_action(socket, :show, %{"board_url" => board_url, "thread_id" => id}) do
-    thread = Channel.get_thread!(id)
-    
-    board = Enum.filter(Channel.list_boards(), fn b ->
-      b.url == board_url
-    end)
-    |> Enum.at(0)
-
-    replies = Enum.filter(Channel.list_replies(), fn t ->
-      case t.thread_id do
-        nil -> False
-        _ -> Integer.to_string(t.thread_id) == id
-      end
-    end)
-
     socket
     |> assign(:page_title, page_title(socket.assigns.live_action))
-    |> assign(:replies, replies)
-    |> assign(:thread, thread)
-    |> assign(:board, board)
+    |> assign(:replies, Channel.get_replies(id))
+    |> assign(:thread, Channel.get_thread!(id))
+    |> assign(:board, Channel.get_board(board_url))
   end
 
-  defp apply_action(socket, :new_reply, %{"id" => id}) do
-    thread = Channel.get_thread!(id)
-    board = Channel.get_board!(thread.board_id)
-
-    replies = Enum.filter(Channel.list_replies(), fn t ->
-      case t.thread_id do
-        nil -> False
-        _ -> Integer.to_string(t.thread_id) == id
-      end
-    end)
-
+  defp apply_action(socket, :new, %{"board_url" => board_url, "thread_id" => id}) do
     socket
     |> assign(:page_title, page_title(socket.assigns.live_action))
-    |> assign(:replies, replies)
-    |> assign(:thread, thread)
-    |> assign(:board, board)
+    |> assign(:replies, Channel.get_replies(id))
+    |> assign(:thread, Channel.get_thread!(id))
+    |> assign(:board, Channel.get_board(board_url))
     |> assign(:reply, %Reply{})
   end
 
   defp page_title(:show), do: "Show Thread"
-  defp page_title(:edit), do: "Edit Thread"
-  defp page_title(:new_reply), do: "New reply"
+  defp page_title(:new), do: "New reply"
 end

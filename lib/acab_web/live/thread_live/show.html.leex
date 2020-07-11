@@ -1,11 +1,11 @@
-<%= if @live_action == :new_reply do %>
+<%= if @live_action == :new do %>
   <%= live_modal @socket, AcabWeb.ReplyLive.FormComponent,
     id: @reply.id || :new,
     title: @page_title,
     action: :new,
     reply: @reply,
     thread_id: @thread.id,
-    return_to: Routes.thread_show_path(@socket, :show, @thread.id) %>
+    return_to: Routes.thread_show_path(@socket, :show, @board.url, @thread.id) %>
 <% end %>
 
 <span class="boardTitleMain">
@@ -16,7 +16,7 @@
 
 <div class="newthread">
   <span>[<%= live_redirect "Return", to: Routes.board_show_path(@socket, :show, @board.url) %>]</span>
-  <span>[<%= live_patch "Post a reply", to: Routes.thread_show_path(@socket, :new_reply, @thread.id) %>]</span>
+  <span>[<%= live_patch "Post a reply", to: Routes.thread_show_path(@socket, :new, @board.url, @thread.id) %>]</span>
 </div>
 
 <hr>

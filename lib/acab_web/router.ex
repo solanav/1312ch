@@ -20,9 +20,13 @@ defmodule AcabWeb.Router do
     live "/", PageLive, :index
   
     # Release
-    live "/:board_url", BoardLive.Show, :show
-    live "/:board_url/:thread_id", ThreadLive.Show, :show
+    live "/:board_url", BoardLive.Show, :show # Show a board
+    live "/:board_url/new", BoardLive.Show, :new # Create a new thread
+    
+    live "/:board_url/:thread_id", ThreadLive.Show, :show # Show a thread
+    live "/:board_url/:thread_id/new", ThreadLive.Show, :new # Create a new reply
 
+    """
     # Boards
     live "/boards", BoardLive.Index, :index
     live "/boards/new", BoardLive.Index, :new
@@ -46,6 +50,7 @@ defmodule AcabWeb.Router do
 
     live "/replies/:id", ReplyLive.Show, :show
     live "/replies/:id/show/edit", ReplyLive.Show, :edit
+    """
   end
 
   # Other scopes may use custom stacks.
