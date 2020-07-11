@@ -21,7 +21,11 @@ defmodule AcabWeb.Router do
   
     # Release
     live "/:board_url", BoardLive.Show, :show # Show a board
+<<<<<<< HEAD
     live "/:board_url/new", BoardLive.Show, :new # Create a new thread
+=======
+    live "/:board_url/new", ThreadLive.Show, :new # Create a new thread
+>>>>>>> 62774478d8aa2b630aa9d1c71df98e25324bf424
     
     live "/:board_url/:thread_id", ThreadLive.Show, :show # Show a thread
     live "/:board_url/:thread_id/new", ThreadLive.Show, :new # Create a new reply
