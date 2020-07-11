@@ -21,40 +21,10 @@ defmodule AcabWeb.Router do
   
     # Release
     live "/:board_url", BoardLive.Show, :show # Show a board
-<<<<<<< HEAD
     live "/:board_url/new", BoardLive.Show, :new # Create a new thread
-=======
-    live "/:board_url/new", ThreadLive.Show, :new # Create a new thread
->>>>>>> 62774478d8aa2b630aa9d1c71df98e25324bf424
     
     live "/:board_url/:thread_id", ThreadLive.Show, :show # Show a thread
     live "/:board_url/:thread_id/new", ThreadLive.Show, :new # Create a new reply
-
-    """
-    # Boards
-    live "/boards", BoardLive.Index, :index
-    live "/boards/new", BoardLive.Index, :new
-    live "/boards/:id/edit", BoardLive.Index, :edit
-
-    live "/boards/:id/show/edit", BoardLive.Show, :edit
-    live "/boards/:id/new_thread", BoardLive.Show, :new_thread
-
-    # Threads
-    live "/threads", ThreadLive.Index, :index
-    live "/threads/new", ThreadLive.Index, :new
-    live "/threads/:id/edit", ThreadLive.Index, :edit
-
-    live "/threads/:id/show/edit", ThreadLive.Show, :edit
-    live "/threads/:id/new_reply", ThreadLive.Show, :new_reply
-
-    # Replies
-    live "/replies", ReplyLive.Index, :index
-    live "/replies/new", ReplyLive.Index, :new
-    live "/replies/:id/edit", ReplyLive.Index, :edit
-
-    live "/replies/:id", ReplyLive.Show, :show
-    live "/replies/:id/show/edit", ReplyLive.Show, :edit
-    """
   end
 
   # Other scopes may use custom stacks.
