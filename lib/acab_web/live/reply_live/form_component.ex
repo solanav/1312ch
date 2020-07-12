@@ -24,10 +24,6 @@ defmodule AcabWeb.ReplyLive.FormComponent do
   end
 
   def handle_event("save", %{"reply" => reply_params}, socket) do
-    IO.puts socket.assigns.action
-    IO.puts socket.assigns.action
-    IO.puts socket.assigns.action
-    
     save_reply(socket, socket.assigns.action, reply_params)
   end
 

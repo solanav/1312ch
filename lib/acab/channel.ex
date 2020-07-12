@@ -7,6 +7,7 @@ defmodule Acab.Channel do
   alias Acab.Repo
 
   alias Acab.Channel.Board
+  alias Acab.Channel.Reply
 
   @doc """
   Returns the list of boards.
@@ -279,20 +280,18 @@ defmodule Acab.Channel do
 
   ## Examples
 
-      iex> get_reply!(123)
+      iex> get_replies(123)
       %Reply{}
 
-      iex> get_reply!(456)
-      ** (Ecto.NoResultsError)
+      iex> get_replies(456)
+      []
 
   """
-  def get_replies(id) do
-    Enum.filter(list_replies(), fn t ->
-      case t.thread_id do
-        nil -> False
-        _ -> Integer.to_string(t.thread_id) == id
-      end
-    end) 
+  def get_replies(id) when is_integer(id) do
+    Enum.filter(list_replies(), fn r ->
+      r.thread_id == id
+    end)
+    |> Enum.map(fn r -> Reply.parse_reply(r) end)
   end
 
   @doc """

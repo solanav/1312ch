@@ -1,0 +1,12 @@
+<div class="postInfo">
+  <input type="checkbox">
+  <span class="threadTitle"><%= @thread.title %></span>
+  <span class="threadAuthor"><%= @thread.author %></span>
+  <span class="threadDatetime"><%= @thread.inserted_at %></span>
+  <span class="threadId">No.<%= @thread.id %></span>
+  <span class="threadReply">[<%= live_redirect "Show", to: Routes.thread_show_path(@socket, :show, @board.url, @thread) %>]</span>
+  
+  <blockquote>
+    <%= @thread.body %>
+  </blockquote>
+</div>

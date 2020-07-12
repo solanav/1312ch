@@ -10,6 +10,17 @@ defmodule Acab.Channel.Reply do
     timestamps()
   end
 
+  def parse_reply(reply) do
+    %{reply | body: String.split(reply.body, "\n")
+    |> Enum.map(fn line ->
+      case {String.at(line, 0), String.at(line, 1)} do
+        {">", ">"} -> {:response, line}
+        {">", _} -> {:green_text, line}
+        _ -> {:nothing, line}
+      end
+    end)}
+  end
+
   @doc false
   def changeset(reply, attrs) do
     reply

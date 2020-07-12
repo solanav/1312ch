@@ -35,20 +35,6 @@
     </div>
 
     <%= for reply <- @replies do %>
-    <span class="sideArrows">>></span>
-      <div class="postReply">
-        <input type="checkbox">
-        <span class="threadAuthor"><%= reply.author %></span>
-        <span class="threadDatetime"><%= reply.inserted_at %></span>
-        <span class="threadId">No.<%= reply.id %></span>
-        
-        <blockquote>
-          <%= reply.body %>
-        </blockquote>
-      </div>
+      <%= live_component @socket, AcabWeb.ReplyLive.ReplyComponent, reply: reply %>
     <% end %>
-</div>
-
-<div>
-  
 </div>
