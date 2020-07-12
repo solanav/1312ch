@@ -15,7 +15,7 @@ defmodule AcabWeb.ThreadLive.Show do
   end
 
   defp apply_action(socket, :show, %{"board_url" => board_url, "thread_id" => id}) do
-    {id, remainder} = Integer.parse(id)
+    {id, _} = Integer.parse(id)
 
     socket
     |> assign(:page_title, page_title(socket.assigns.live_action))
