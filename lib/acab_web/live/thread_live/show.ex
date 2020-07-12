@@ -2,6 +2,7 @@ defmodule AcabWeb.ThreadLive.Show do
   use AcabWeb, :live_view
 
   alias Acab.Channel
+  alias Acab.Channel.Reply
 
   @impl true
   def mount(_params, _session, socket) do
@@ -21,7 +22,6 @@ defmodule AcabWeb.ThreadLive.Show do
     |> assign(:board, Channel.get_board(board_url))
   end
 
-<<<<<<< HEAD
   defp apply_action(socket, :new, %{"board_url" => board_url, "thread_id" => id}) do
     socket
     |> assign(:page_title, page_title(socket.assigns.live_action))
@@ -31,8 +31,6 @@ defmodule AcabWeb.ThreadLive.Show do
     |> assign(:reply, %Reply{})
   end
 
-=======
->>>>>>> 62774478d8aa2b630aa9d1c71df98e25324bf424
   defp page_title(:show), do: "Show Thread"
   defp page_title(:new), do: "New reply"
 end

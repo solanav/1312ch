@@ -292,7 +292,18 @@ defmodule Acab.Channel do
         nil -> False
         _ -> Integer.to_string(t.thread_id) == id
       end
-    end) 
+    end)
+    |> Enum.map(fn reply ->
+      text = String.split(reply.body, "\n")
+      |> Enum.map(fn line ->
+        case {String.at(line, 0), String.at(line, 1)} do
+          {">", ">"} -> {:response, line}
+          {">", _} -> {:green_text, line}
+          _ -> {:nothing, line}
+        end
+      end)
+      %{reply | body: text}
+    end)
   end
 
   @doc """

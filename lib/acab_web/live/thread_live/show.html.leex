@@ -43,12 +43,16 @@
         <span class="threadId">No.<%= reply.id %></span>
         
         <blockquote>
-          <%= reply.body %>
+        <%= for {tag, text} <- reply.body do %>
+          <p class="replyLine">
+          <%= case tag do %>
+            <%= :response -> %> <a href="#"><%= text %></a>
+            <%= :green_text -> %> <span class="greenText"><%= text %></span>
+            <%= :nothing -> %> <%= text %>
+          <% end %>
+          </p>
+        <% end %>
         </blockquote>
       </div>
     <% end %>
-</div>
-
-<div>
-  
 </div>
