@@ -15,6 +15,20 @@ defmodule Acab.Channel.Thread do
   def changeset(thread, attrs) do
     thread
     |> cast(attrs, [:author, :title, :body, :board_id])
-    |> validate_required([:author, :title, :body, :board_id])
+    |> validate_required([:body, :board_id])
+  end
+
+  @doc false
+  def update_time(board) do
+    updated_at = DateTime.utc_now
+    |> DateTime.to_iso8601
+
+    IO.puts updated_at
+    IO.puts updated_at
+    IO.puts updated_at
+    IO.puts updated_at
+
+    board
+    |> cast(%{updated_at: updated_at}, [:updated_at])
   end
 end

@@ -14,8 +14,8 @@ defmodule AcabWeb.BoardLive.Show do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :show, %{"board_url" => url}) do
-    board = Channel.get_board(url)
+  defp apply_action(socket, :show, %{"board_url" => board_url}) do
+    board = Channel.get_board(board_url)
     threads = Enum.map(Channel.get_threads(board.id), fn t ->
       replies = Enum.take(Channel.get_replies(t.id), -5)
       {t, replies}
@@ -27,8 +27,10 @@ defmodule AcabWeb.BoardLive.Show do
     |> assign(:threads, threads)
   end
 
-  defp apply_action(socket, :new, %{"board_url" => url}) do
-    apply_action(socket, :show, %{"board_url" => url})
+  defp apply_action(socket, :new, %{"board_url" => board_url}) do
+    Board.update_time(Channel.get_board(board_url))
+
+    apply_action(socket, :show, %{"board_url" => board_url})
     |> assign(:thread, %Thread{})
   end
 

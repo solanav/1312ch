@@ -3,6 +3,8 @@ defmodule AcabWeb.ThreadLive.Show do
 
   alias Acab.Channel
   alias Acab.Channel.Reply
+  alias Acab.Channel.Board
+  alias Acab.Channel.Thread
 
   @impl true
   def mount(_params, _session, socket) do
@@ -25,6 +27,9 @@ defmodule AcabWeb.ThreadLive.Show do
   end
 
   defp apply_action(socket, :new, %{"board_url" => board_url, "thread_id" => id}) do
+    Board.update_time(Channel.get_board(board_url))
+    Thread.update_time(Channel.get_thread!(id))
+
     apply_action(socket, :show, %{"board_url" => board_url, "thread_id" => id})
     |> assign(:reply, %Reply{})
   end
