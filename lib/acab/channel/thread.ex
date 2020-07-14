@@ -12,6 +12,17 @@ defmodule Acab.Channel.Thread do
     timestamps()
   end
 
+  def parse_thread(thread) do
+    %{thread | body: String.split(thread.body, "\n")
+    |> Enum.map(fn line ->
+      case {String.at(line, 0), String.at(line, 1)} do
+        {">", ">"} -> {:response, line}
+        {">", _} -> {:green_text, line}
+        _ -> {:nothing, line}
+      end
+    end)}
+  end
+
   @doc false
   def changeset(thread, attrs) do
     thread

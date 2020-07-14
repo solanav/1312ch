@@ -7,6 +7,17 @@
   <span class="threadReply">[<%= live_redirect "Show", to: Routes.thread_show_path(@socket, :show, @board.url, @thread) %>]</span>
   
   <blockquote>
-    <%= @thread.body %>
+    <%= for {tag, text} <- @thread.body do %>
+    <p class="replyLine">
+    <%= case tag do %>
+      <% :response -> %>
+        <a href="#"><%= text %></a>
+      <% :green_text -> %>
+        <span class="greenText"><%= text %></span>
+      <% :nothing -> %>
+        <%= text %>
+    <% end %>
+    </p>
+  <% end %>
   </blockquote>
 </div>

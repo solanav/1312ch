@@ -8,6 +8,7 @@ defmodule Acab.Channel do
 
   alias Acab.Channel.Board
   alias Acab.Channel.Reply
+  alias Acab.Channel.Thread
 
   @doc """
   Returns the list of boards.
@@ -233,6 +234,7 @@ defmodule Acab.Channel do
     Enum.filter(list_threads(), fn t ->
       t.board_id == board_id
     end)
+    |> Enum.map(fn r -> Thread.parse_thread(r) end)
   end
 
   @doc """
