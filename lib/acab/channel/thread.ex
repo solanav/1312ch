@@ -20,11 +20,11 @@ defmodule Acab.Channel.Thread do
   end
 
   @doc false
-  def update_time(board) do
+  def update_time(thread) do
     updated_at = DateTime.utc_now
     |> DateTime.to_iso8601
 
-    board
+    thread
     |> cast(%{updated_at: updated_at}, [:updated_at])
     |> Repo.update()
   end

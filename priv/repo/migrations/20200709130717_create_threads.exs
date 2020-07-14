@@ -6,7 +6,7 @@ defmodule Acab.Repo.Migrations.CreateThreads do
       add :author, :string
       add :title, :string
       add :body, :text
-      add :board_id, references(:boards, on_delete: :nothing)
+      add :board_id, references(:boards, on_delete: :delete_all)
 
       timestamps()
     end

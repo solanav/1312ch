@@ -5,7 +5,7 @@ defmodule Acab.Repo.Migrations.CreateReplies do
     create table(:replies) do
       add :author, :string
       add :body, :text
-      add :thread_id, references(:threads, on_delete: :nothing)
+      add :thread_id, references(:threads, on_delete: :delete_all)
 
       timestamps()
     end

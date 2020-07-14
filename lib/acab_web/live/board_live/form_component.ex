@@ -27,19 +27,6 @@ defmodule AcabWeb.BoardLive.FormComponent do
     save_board(socket, socket.assigns.action, board_params)
   end
 
-  defp save_board(socket, :edit, board_params) do
-    case Channel.update_board(socket.assigns.board, board_params) do
-      {:ok, _board} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Board updated successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, :changeset, changeset)}
-    end
-  end
-
   defp save_board(socket, :new, board_params) do
     case Channel.create_board(board_params) do
       {:ok, _board} ->

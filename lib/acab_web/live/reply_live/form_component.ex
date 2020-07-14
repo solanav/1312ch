@@ -2,6 +2,7 @@ defmodule AcabWeb.ReplyLive.FormComponent do
   use AcabWeb, :live_component
 
   alias Acab.Channel
+  alias Acab.Repo
 
   @impl true
   def update(%{reply: reply} = assigns, socket) do
@@ -27,28 +28,22 @@ defmodule AcabWeb.ReplyLive.FormComponent do
     save_reply(socket, socket.assigns.action, reply_params)
   end
 
-  defp save_reply(socket, :edit, reply_params) do
-    case Channel.update_reply(socket.assigns.reply, reply_params) do
-      {:ok, _reply} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Reply updated successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, :changeset, changeset)}
-    end
-  end
-
   defp save_reply(socket, :new, reply_params) do
-    case Channel.create_reply(reply_params) do
-      {:ok, _reply} ->
-        {:noreply,
-         socket
-         |> push_redirect(to: socket.assigns.return_to)}
+    max_replies = Application.get_env(:acab, AcabWeb.Endpoint)[:max_replies]
+    nreplies = Channel.count_replies(String.to_integer(reply_params["thread_id"]))
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, changeset: changeset)}
+    if nreplies < max_replies do
+      case Channel.create_reply(reply_params) do
+        {:ok, _reply} ->
+          {:noreply,
+          socket
+          |> push_redirect(to: socket.assigns.return_to)}
+
+        {:error, %Ecto.Changeset{} = changeset} ->
+          {:noreply, assign(socket, changeset: changeset)}
+      end
+    else
+      {:noreply, push_redirect(socket, to: socket.assigns.return_to)}
     end
   end
 end

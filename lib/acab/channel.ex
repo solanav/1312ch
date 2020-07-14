@@ -143,6 +143,65 @@ defmodule Acab.Channel do
   end
 
   @doc """
+  Returns the last thread.
+
+  ## Examples
+
+      iex> last_thread()
+      %Thread{}
+
+  """
+  def last_thread do
+    query = from Thread,
+      order_by: :updated_at,
+      limit: 1
+
+    Repo.one(query)
+  end
+
+  @doc """
+  Returns the number of threads.
+
+  ## Examples
+
+      iex> count_threads()
+      3
+
+  """
+  def count_threads do
+    query = from t in Thread,
+      select: count(t.id)
+
+    Repo.one(query)
+  end
+
+  @doc """
+  Deletes oldest threads.
+
+  ## Examples
+
+      iex> delete_old_threads()
+      3
+
+  """
+  def delete_old_threads(nthreads, max_threads) do
+    Repo.delete!(last_thread())
+    nthreads = nthreads - 1
+
+    if nthreads > max_threads do
+      delete_old_threads(nthreads, max_threads)
+    end
+  end
+
+  def delete_old_threads do
+    max_threads = Application.get_env(:acab, AcabWeb.Endpoint)[:max_threads]
+    nthreads = count_threads()
+    if nthreads > max_threads do
+      delete_old_threads(nthreads, max_threads)
+    end
+  end
+
+  @doc """
   Gets a single thread.
 
   Raises `Ecto.NoResultsError` if the Thread does not exist.
@@ -174,8 +233,6 @@ defmodule Acab.Channel do
     Enum.filter(list_threads(), fn t ->
       t.board_id == board_id
     end)
-
-    IO.inspect list_threads()
   end
 
   @doc """
@@ -273,6 +330,25 @@ defmodule Acab.Channel do
 
   """
   def get_reply!(id), do: Repo.get!(Reply, id)
+
+  @doc """
+  Gets a single reply.
+
+  Raises `Ecto.NoResultsError` if the Reply does not exist.
+
+  ## Examples
+
+      iex> count_replies(thread_id)
+      3
+
+  """
+  def count_replies(thread_id) do
+    query = from r in Reply,
+      select: count(r.id),
+      where: r.thread_id == ^thread_id
+
+    Repo.one(query)
+  end
 
   @doc """
   Gets a list of replies to a thread.

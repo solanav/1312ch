@@ -16,7 +16,9 @@ config :acab, AcabWeb.Endpoint,
   secret_key_base: "WiX/EBg3392jY3TEjuX4Xs4eRROowl/CEyg8U6qS/jW1aYNN97cFGM8DtwTvjsTz",
   render_errors: [view: AcabWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Acab.PubSub,
-  live_view: [signing_salt: "5LmkSDIs"]
+  live_view: [signing_salt: "5LmkSDIs"],
+  max_threads: 100,
+  max_replies: 250
 
 # Configures Elixir's Logger
 config :logger, :console,

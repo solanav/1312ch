@@ -27,22 +27,10 @@ defmodule AcabWeb.ThreadLive.FormComponent do
     save_thread(socket, socket.assigns.action, thread_params)
   end
 
-  defp save_thread(socket, :edit, thread_params) do
-    case Channel.update_thread(socket.assigns.thread, thread_params) do
-      {:ok, _thread} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Thread updated successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, :changeset, changeset)}
-    end
-  end
-
   defp save_thread(socket, :new, thread_params) do
     case Channel.create_thread(thread_params) do
       {:ok, _thread} ->
+        Channel.delete_old_threads()
         {:noreply,
          socket
          |> push_redirect(to: socket.assigns.return_to)}
