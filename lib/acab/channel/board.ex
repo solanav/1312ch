@@ -1,6 +1,7 @@
 defmodule Acab.Channel.Board do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Acab.Repo
 
   schema "boards" do
     field :title, :string
@@ -21,12 +22,8 @@ defmodule Acab.Channel.Board do
     updated_at = DateTime.utc_now
     |> DateTime.to_iso8601
 
-    IO.puts updated_at
-    IO.puts updated_at
-    IO.puts updated_at
-    IO.puts updated_at
-
     board
     |> cast(%{updated_at: updated_at}, [:updated_at])
+    |> Repo.update()
   end
 end

@@ -3,6 +3,7 @@ defmodule AcabWeb.BoardLive.Show do
 
   alias Acab.Channel
   alias Acab.Channel.Thread
+  alias Acab.Channel.Board
 
   @impl true
   def mount(_params, _session, socket) do

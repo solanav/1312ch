@@ -136,7 +136,10 @@ defmodule Acab.Channel do
 
   """
   def list_threads do
-    Repo.all(Thread)
+    query = from Thread,
+      order_by: [desc: :updated_at]
+
+    Repo.all(query)
   end
 
   @doc """
@@ -169,12 +172,10 @@ defmodule Acab.Channel do
   """
   def get_threads(board_id) do
     Enum.filter(list_threads(), fn t ->
-      case {t.board_id, board_id} do
-        {nil, _} -> False
-        {_, nil} -> False
-        _ -> t.board_id == board_id
-      end
+      t.board_id == board_id
     end)
+
+    IO.inspect list_threads()
   end
 
   @doc """

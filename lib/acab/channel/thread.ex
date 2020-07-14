@@ -1,6 +1,7 @@
 defmodule Acab.Channel.Thread do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Acab.Repo
 
   schema "threads" do
     field :author, :string, default: "Anon"
@@ -23,12 +24,8 @@ defmodule Acab.Channel.Thread do
     updated_at = DateTime.utc_now
     |> DateTime.to_iso8601
 
-    IO.puts updated_at
-    IO.puts updated_at
-    IO.puts updated_at
-    IO.puts updated_at
-
     board
     |> cast(%{updated_at: updated_at}, [:updated_at])
+    |> Repo.update()
   end
 end
