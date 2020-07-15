@@ -28,15 +28,30 @@ defmodule AcabWeb.ThreadLive.FormComponent do
   end
 
   defp save_thread(socket, :new, thread_params) do
-    case Channel.create_thread(thread_params) do
-      {:ok, _thread} ->
-        Channel.delete_old_threads()
-        {:noreply,
-         socket
-         |> push_redirect(to: socket.assigns.return_to)}
+    img_solution = Acab.Session.get(socket.id())
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, changeset: changeset)}
+    IO.inspect img_solution
+    IO.inspect img_solution
+    IO.inspect img_solution
+    IO.inspect thread_params["captcha"]
+    IO.inspect thread_params["captcha"]
+    IO.inspect thread_params["captcha"]
+
+    if thread_params["captcha"] == img_solution do
+      case Channel.create_thread(thread_params) do
+        {:ok, _thread} ->
+          Channel.delete_old_threads()
+          {:noreply,
+          socket
+          |> push_redirect(to: socket.assigns.return_to)}
+
+        {:error, %Ecto.Changeset{} = changeset} ->
+          {:noreply, assign(socket, changeset: changeset)}
+      end
+    else
+      {:noreply,
+          socket
+          |> push_redirect(to: socket.assigns.return_to)}
     end
   end
 end

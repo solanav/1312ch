@@ -18,6 +18,11 @@
   <%= textarea f, :body %>
   <%= error_tag f, :body %>
 
+  <img src="data:image/png;base64, <%= @captcha %>"/>
+  <%= label f, :captcha %>
+  <%= text_input f, :captcha %>
+  <%= error_tag f, :captcha %>
+
   <%= hidden_input f, :board_id, value: @board_id %>
 
   <%= submit "Post", phx_disable_with: "Posting..." %>

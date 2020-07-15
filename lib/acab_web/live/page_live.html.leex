@@ -1,6 +1,6 @@
 <%= for board <- @boards do %>
 <span class="boardListLink">
-  <span><%= live_redirect board.title, to: Routes.board_show_path(@socket, :show, board.url), class: "boardListTitle" %></span>
+  <span><%= live_redirect "/" <> board.url <> "/ - " <> board.title, to: Routes.board_show_path(@socket, :show, board.url), class: "boardListTitle" %></span>
   <span style="font-size: 25px"> <%= board.updated_at %></span>
 </span>
 <% end %>

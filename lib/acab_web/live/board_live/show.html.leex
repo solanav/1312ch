@@ -5,6 +5,7 @@
     action: @live_action,
     thread: @thread,
     board_id: @board.id,
+    captcha: @captcha,
     return_to: Routes.board_show_path(@socket, :show, @board.url) %>
 <% end %>
 

@@ -20,7 +20,7 @@ defmodule Acab.MixProject do
   def application do
     [
       mod: {Acab.Application, []},
-      extra_applications: [:logger, :runtime_tools, :recaptcha],
+      extra_applications: [:logger, :runtime_tools],
     ]
   end
 
@@ -47,7 +47,7 @@ defmodule Acab.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:recaptcha, "~> 3.0"}
+      {:captcha, "~> 0.1.0"}
     ]
   end
 
