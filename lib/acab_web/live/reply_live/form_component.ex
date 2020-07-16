@@ -32,7 +32,9 @@ defmodule AcabWeb.ReplyLive.FormComponent do
     max_replies = Application.get_env(:acab, AcabWeb.Endpoint)[:max_replies]
     nreplies = Channel.count_replies(String.to_integer(reply_params["thread_id"]))
 
-    if nreplies < max_replies do
+    img_solution = Acab.Session.get(socket.id())
+
+    if nreplies < max_replies and reply_params["captcha"] == img_solution do
       case Channel.create_reply(reply_params) do
         {:ok, _reply} ->
           {:noreply,

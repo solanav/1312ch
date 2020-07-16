@@ -30,9 +30,9 @@ defmodule AcabWeb.BoardLive.Show do
 
   defp apply_action(socket, :new, %{"board_url" => board_url}) do
     Board.update_time(Channel.get_board(board_url))
-    {:ok, text, img_binary} = Captcha.get()
 
     # Save image text on ets
+    {:ok, text, img_binary} = Captcha.get()
     Acab.Session.put(socket.id(), text)
 
     apply_action(socket, :show, %{"board_url" => board_url})

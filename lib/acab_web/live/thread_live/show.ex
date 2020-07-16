@@ -30,8 +30,13 @@ defmodule AcabWeb.ThreadLive.Show do
     Board.update_time(Channel.get_board(board_url))
     Thread.update_time(Channel.get_thread!(id))
 
+    # Save image text on ets
+    {:ok, text, img_binary} = Captcha.get()
+    Acab.Session.put(socket.id(), text)
+
     apply_action(socket, :show, %{"board_url" => board_url, "thread_id" => id})
     |> assign(:reply, %Reply{})
+    |> assign(:captcha, Base.encode64(img_binary))
   end
 
   defp page_title(:show), do: "Show Thread"

@@ -14,6 +14,11 @@
   <%= textarea f, :body %>
   <%= error_tag f, :body %>
 
+  <img src="data:image/png;base64, <%= @captcha %>"/>
+  <%= label f, :captcha %>
+  <%= text_input f, :captcha %>
+  <%= error_tag f, :captcha %>
+
   <%= hidden_input f, :thread_id, value: @thread_id %>
 
   <%= submit "Save", phx_disable_with: "Saving..." %>

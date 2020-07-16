@@ -30,13 +30,6 @@ defmodule AcabWeb.ThreadLive.FormComponent do
   defp save_thread(socket, :new, thread_params) do
     img_solution = Acab.Session.get(socket.id())
 
-    IO.inspect img_solution
-    IO.inspect img_solution
-    IO.inspect img_solution
-    IO.inspect thread_params["captcha"]
-    IO.inspect thread_params["captcha"]
-    IO.inspect thread_params["captcha"]
-
     if thread_params["captcha"] == img_solution do
       case Channel.create_thread(thread_params) do
         {:ok, _thread} ->
