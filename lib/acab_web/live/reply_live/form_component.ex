@@ -29,12 +29,17 @@ defmodule AcabWeb.ReplyLive.FormComponent do
   end
 
   defp save_reply(socket, :new, reply_params) do
+    # Check if there can be more replies
     max_replies = Application.get_env(:acab, AcabWeb.Endpoint)[:max_replies]
     nreplies = Channel.count_replies(String.to_integer(reply_params["thread_id"]))
 
+    # Check if captcha is correct
     img_solution = Acab.Session.get(socket.id())
 
     if nreplies < max_replies and reply_params["captcha"] == img_solution do
+      # Remove captcha from ets
+      Acab.Session.delete(socket.id())
+      
       case Channel.create_reply(reply_params) do
         {:ok, _reply} ->
           {:noreply,

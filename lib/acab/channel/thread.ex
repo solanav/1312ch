@@ -2,6 +2,7 @@ defmodule Acab.Channel.Thread do
   use Ecto.Schema
   import Ecto.Changeset
   alias Acab.Repo
+  alias Acab.Channel
 
   schema "threads" do
     field :author, :string, default: "Anon"

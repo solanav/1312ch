@@ -31,6 +31,9 @@ defmodule AcabWeb.ThreadLive.FormComponent do
     img_solution = Acab.Session.get(socket.id())
 
     if thread_params["captcha"] == img_solution do
+      # Remove captcha from ets
+      Acab.Session.delete(socket.id())
+      
       case Channel.create_thread(thread_params) do
         {:ok, _thread} ->
           Channel.delete_old_threads()

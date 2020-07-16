@@ -1,4 +1,4 @@
-<div class="postInfo">
+<div id="thread_<%= @thread.id %>" class="postInfo">
   <input type="checkbox">
   <span class="threadTitle"><%= @thread.title %></span>
   <span class="threadAuthor"><%= @thread.author %></span>
@@ -11,7 +11,7 @@
     <p class="replyLine">
     <%= case tag do %>
       <% :response -> %>
-        <a href="#"><%= text %></a>
+        <a href="#thread_<%= String.slice(text, 2..-1) %>"><%= text %></a>
       <% :green_text -> %>
         <span class="greenText"><%= text %></span>
       <% :nothing -> %>

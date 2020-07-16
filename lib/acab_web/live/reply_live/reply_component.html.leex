@@ -1,5 +1,5 @@
 <span class="sideArrows">>></span>
-<div class="postReply">
+<div id="reply_<%= @reply.id %>" class="postReply">
   <input type="checkbox">
   <span class="threadAuthor"><%= @reply.author %></span>
   <span class="threadDatetime"><%= @reply.inserted_at %></span>
@@ -10,7 +10,7 @@
     <p class="replyLine">
     <%= case tag do %>
       <% :response -> %>
-        <a href="#"><%= text %></a>
+        <a href="#reply_<%= text %>">>><%= text %></a>
       <% :green_text -> %>
         <span class="greenText"><%= text %></span>
       <% :nothing -> %>
