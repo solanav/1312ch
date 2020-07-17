@@ -26,13 +26,21 @@ defmodule Acab.Channel.Reply do
 
           case reply_id do
             {i, ""} ->
+              IO.puts i
+              IO.puts i
+              IO.puts i
+
               member = Enum.reduce(replies, false, fn x, acc ->
-                if x.id == i do
+                if x.id != i do
                   acc
                 else
                   true
                 end
               end)
+
+              IO.puts member
+              IO.puts member
+              IO.puts member
               
               if member do
                 {:response, i}
