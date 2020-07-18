@@ -253,6 +253,7 @@ defmodule Acab.Channel do
     %Thread{}
     |> Thread.changeset(attrs)
     |> Repo.insert()
+    |> broadcast(:thread_created)
   end
 
   @doc """
@@ -389,6 +390,7 @@ defmodule Acab.Channel do
     %Reply{}
     |> Reply.changeset(attrs)
     |> Repo.insert()
+    |> broadcast(:reply_created)
   end
 
   @doc """
@@ -436,5 +438,10 @@ defmodule Acab.Channel do
   """
   def change_reply(%Reply{} = reply, attrs \\ %{}) do
     Reply.changeset(reply, attrs)
+  end
+
+  defp broadcast({:error, _reason} = error, _event), do: error
+  defp broadcast({:ok, post}, event) do
+    Phoenix.PubSub.broadcast(Acab.PubSub, "replies", {event, post})
   end
 end
