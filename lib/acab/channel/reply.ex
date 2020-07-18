@@ -11,45 +11,47 @@ defmodule Acab.Channel.Reply do
     timestamps()
   end
 
-  def parse_reply(reply) do
+  def references_reply?(reply_ref, reply) do
+    # Get raw list of replies (on our thread)
     replies = Enum.filter(Channel.list_replies(), fn r ->
       r.thread_id == reply.thread_id
     end)
 
+    # Go through replies to check if we reference one of them
+    Enum.reduce(replies, false, fn x, acc ->
+      if x.id != reply_ref do
+        acc
+      else
+        true
+      end
+    end)
+  end
+
+  def references_op?(reply_ref, reply) do
+    member = (reply_ref == reply.thread_id)
+  end
+
+  def check_reference(reply, line) do
+    reply_id = line
+    |> String.slice(2..-1)
+    |> Integer.parse()
+
+    case reply_id do
+      {reply_ref, ""} ->
+        cond do
+          references_op?(reply_ref, reply) -> {:response_op, reply_ref}
+          references_reply?(reply_ref, reply) -> {:response, reply_ref}
+          true -> {:nothing, line}
+        end
+      _ -> {:nothing, line} 
+    end
+  end
+
+  def parse_reply(reply) do
     %{reply | body: String.split(reply.body, "\n")
     |> Enum.map(fn line ->
       case {String.at(line, 0), String.at(line, 1)} do
-        {">", ">"} ->
-          reply_id = line
-          |> String.slice(2..-1)
-          |> Integer.parse()
-
-          case reply_id do
-            {i, ""} ->
-              IO.puts i
-              IO.puts i
-              IO.puts i
-
-              member = Enum.reduce(replies, false, fn x, acc ->
-                if x.id != i do
-                  acc
-                else
-                  true
-                end
-              end)
-
-              IO.puts member
-              IO.puts member
-              IO.puts member
-              
-              if member do
-                {:response, i}
-              else
-                {:nothing, line}
-              end
-            _ ->
-              {:nothing, line} 
-          end
+        {">", ">"} -> check_reference(reply, line)
         {">", _} -> {:green_text, line}
         _ -> {:nothing, line}
       end

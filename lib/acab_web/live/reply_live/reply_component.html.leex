@@ -9,6 +9,8 @@
   <%= for {tag, text} <- @reply.body do %>
     <p class="replyLine">
     <%= case tag do %>
+      <% :response_op -> %>
+        <a href="#top">>><%= text %> (OP)</a>
       <% :response -> %>
         <a href="#reply_<%= text %>">>><%= text %></a>
       <% :green_text -> %>

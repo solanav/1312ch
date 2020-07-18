@@ -11,7 +11,7 @@
     <p class="replyLine">
     <%= case tag do %>
       <% :response -> %>
-        <a href="#thread_<%= String.slice(text, 2..-1) %>"><%= text %></a>
+        <a href="#thread_<%= text %>">>><%= text %></a>
       <% :green_text -> %>
         <span class="greenText"><%= text %></span>
       <% :nothing -> %>
