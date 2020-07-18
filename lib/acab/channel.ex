@@ -237,6 +237,11 @@ defmodule Acab.Channel do
     |> Enum.map(fn r -> Thread.parse_thread(r) end)
   end
 
+  defp mid_parse_thread({:error, _reason} = error, _event), do: error
+  defp mid_parse_thread({:ok, thread}) do
+    {:ok, Thread.parse_thread(thread)}
+  end
+
   @doc """
   Creates a thread.
 
@@ -253,6 +258,8 @@ defmodule Acab.Channel do
     %Thread{}
     |> Thread.changeset(attrs)
     |> Repo.insert()
+    |> mid_parse_thread()
+    |> broadcast(:thread_created)
   end
 
   @doc """
@@ -373,6 +380,11 @@ defmodule Acab.Channel do
     |> Enum.map(fn r -> Reply.parse_reply(r) end)
   end
 
+  defp mid_parse_reply({:error, _reason} = error, _event), do: error
+  defp mid_parse_reply({:ok, reply}) do
+    {:ok, Reply.parse_reply(reply)}
+  end
+
   @doc """
   Creates a reply.
 
@@ -385,13 +397,8 @@ defmodule Acab.Channel do
       {:error, %Ecto.Changeset{}}
 
   """
-  defp mid_parse_reply({:error, _reason} = error, _event), do: error
-  defp mid_parse_reply({:ok, reply}) do
-    {:ok, Reply.parse_reply(reply)}
-  end
-
   def create_reply(attrs \\ %{}) do
-    res = %Reply{}
+    %Reply{}
     |> Reply.changeset(attrs)
     |> Repo.insert()
     |> mid_parse_reply()
@@ -446,12 +453,16 @@ defmodule Acab.Channel do
   end
 
   def subscribe do
-    Phoenix.PubSub.subscribe(Acab.PubSub, "replies")
+    Phoenix.PubSub.subscribe(Acab.PubSub, "channel_events")
   end
 
   defp broadcast({:error, _reason} = error, _event), do: error
-  defp broadcast({:ok, reply}, event) do
-    Phoenix.PubSub.broadcast(Acab.PubSub, "replies", {event, reply})
+  defp broadcast({:ok, reply}, :reply_created) do
+    Phoenix.PubSub.broadcast(Acab.PubSub, "channel_events", {:reply_created, reply})
     {:ok, reply}
+  end
+  defp broadcast({:ok, thread}, :thread_created) do
+    Phoenix.PubSub.broadcast(Acab.PubSub, "channel_events", {:thread_created, thread})
+    {:ok, thread}
   end
 end

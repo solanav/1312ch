@@ -2,11 +2,12 @@ defmodule AcabWeb.BoardLive.Show do
   use AcabWeb, :live_view
 
   alias Acab.Channel
-  alias Acab.Channel.Thread
   alias Acab.Channel.Board
+  alias Acab.Channel.Thread
 
   @impl true
   def mount(_params, _session, socket) do
+    if connected?(socket), do: Channel.subscribe()
     {:ok, socket}
   end
 
@@ -38,6 +39,16 @@ defmodule AcabWeb.BoardLive.Show do
     apply_action(socket, :show, %{"board_url" => board_url})
     |> assign(:thread, %Thread{})
     |> assign(:captcha, Base.encode64(img_binary))
+  end
+
+  @impl true
+  def handle_info({:thread_created, thread}, socket) do
+    {:noreply, update(socket, :threads, fn threads -> [thread | threads] end)}
+  end
+
+  @impl true
+  def handle_info({:reply_created, reply}, socket) do
+    {:noreply, socket}
   end
 
   defp page_title(:show), do: "Show Board"

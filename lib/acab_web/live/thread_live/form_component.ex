@@ -37,17 +37,13 @@ defmodule AcabWeb.ThreadLive.FormComponent do
       case Channel.create_thread(thread_params) do
         {:ok, _thread} ->
           Channel.delete_old_threads()
-          {:noreply,
-          socket
-          |> push_redirect(to: socket.assigns.return_to)}
-
+          {:noreply, push_redirect(socket, to: socket.assigns.return_to)}
+          
         {:error, %Ecto.Changeset{} = changeset} ->
           {:noreply, assign(socket, changeset: changeset)}
       end
     else
-      {:noreply,
-          socket
-          |> push_redirect(to: socket.assigns.return_to)}
+      {:noreply,push_redirect(socket, to: socket.assigns.return_to)}
     end
   end
 end

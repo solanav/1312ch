@@ -42,10 +42,8 @@ defmodule AcabWeb.ReplyLive.FormComponent do
       
       case Channel.create_reply(reply_params) do
         {:ok, _reply} ->
-          {:noreply,
-          socket
-          |> push_redirect(to: socket.assigns.return_to)}
-
+          {:noreply, push_redirect(socket, to: socket.assigns.return_to)}
+          
         {:error, %Ecto.Changeset{} = changeset} ->
           {:noreply, assign(socket, changeset: changeset)}
       end

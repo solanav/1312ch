@@ -9,7 +9,6 @@ defmodule AcabWeb.ThreadLive.Show do
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket), do: Channel.subscribe()
-
     {:ok, socket}
   end
 
@@ -44,6 +43,11 @@ defmodule AcabWeb.ThreadLive.Show do
   @impl true
   def handle_info({:reply_created, reply}, socket) do
     {:noreply, update(socket, :replies, fn replies -> replies ++ [reply] end)}
+  end
+
+  @impl true
+  def handle_info({:thread_created, reply}, socket) do
+    {:noreply, socket}
   end
 
   defp page_title(:show), do: "Show Thread"

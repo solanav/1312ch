@@ -9,6 +9,7 @@ defmodule AcabWeb.ThreadLive.ThreadComponent do
     thread = assigns[:thread]
     lim = assigns[:lim]
 
+    # Get the last five replies of our thread
     replies = case lim do
       :smol -> Enum.take(Channel.get_replies(thread.id), -5)
       _ -> Channel.get_replies(thread.id)
