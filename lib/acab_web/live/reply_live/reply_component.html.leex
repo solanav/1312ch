@@ -6,19 +6,21 @@
   <span class="threadId">No.<%= @reply.id %></span>
   
   <blockquote>
-  <%= for {tag, text} <- @reply.body do %>
-    <p class="replyLine">
-    <%= case tag do %>
-      <% :response_op -> %>
-        <a href="#top">>><%= text %> (OP)</a>
-      <% :response -> %>
-        <a href="#reply_<%= text %>">>><%= text %></a>
-      <% :green_text -> %>
-        <span class="greenText"><%= text %></span>
-      <% :nothing -> %>
-        <%= text %>
+  <%= if is_list(@reply.body) do %>
+    <%= for {tag, text} <- @reply.body do %>
+      <p class="replyLine">
+      <%= case tag do %>
+        <% :response_op -> %>
+          <a href="#top">>><%= text %> (OP)</a>
+        <% :response -> %>
+          <a href="#reply_<%= text %>">>><%= text %></a>
+        <% :green_text -> %>
+          <span class="greenText"><%= text %></span>
+        <% :nothing -> %>
+          <%= text %>
+      <% end %>
+      </p>
     <% end %>
-    </p>
   <% end %>
   </blockquote>
 </div>

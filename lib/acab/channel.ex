@@ -253,7 +253,6 @@ defmodule Acab.Channel do
     %Thread{}
     |> Thread.changeset(attrs)
     |> Repo.insert()
-    |> broadcast(:thread_created)
   end
 
   @doc """
@@ -386,10 +385,16 @@ defmodule Acab.Channel do
       {:error, %Ecto.Changeset{}}
 
   """
+  defp mid_parse_reply({:error, _reason} = error, _event), do: error
+  defp mid_parse_reply({:ok, reply}) do
+    {:ok, Reply.parse_reply(reply)}
+  end
+
   def create_reply(attrs \\ %{}) do
-    %Reply{}
+    res = %Reply{}
     |> Reply.changeset(attrs)
     |> Repo.insert()
+    |> mid_parse_reply()
     |> broadcast(:reply_created)
   end
 
@@ -440,8 +445,13 @@ defmodule Acab.Channel do
     Reply.changeset(reply, attrs)
   end
 
+  def subscribe do
+    Phoenix.PubSub.subscribe(Acab.PubSub, "replies")
+  end
+
   defp broadcast({:error, _reason} = error, _event), do: error
-  defp broadcast({:ok, post}, event) do
-    Phoenix.PubSub.broadcast(Acab.PubSub, "replies", {event, post})
+  defp broadcast({:ok, reply}, event) do
+    Phoenix.PubSub.broadcast(Acab.PubSub, "replies", {event, reply})
+    {:ok, reply}
   end
 end

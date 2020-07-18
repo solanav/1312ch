@@ -8,6 +8,8 @@ defmodule AcabWeb.ThreadLive.Show do
 
   @impl true
   def mount(_params, _session, socket) do
+    if connected?(socket), do: Channel.subscribe()
+
     {:ok, socket}
   end
 
@@ -37,6 +39,11 @@ defmodule AcabWeb.ThreadLive.Show do
     apply_action(socket, :show, %{"board_url" => board_url, "thread_id" => id})
     |> assign(:reply, %Reply{})
     |> assign(:captcha, Base.encode64(img_binary))
+  end
+
+  @impl true
+  def handle_info({:reply_created, reply}, socket) do
+    {:noreply, update(socket, :replies, fn replies -> replies ++ [reply] end)}
   end
 
   defp page_title(:show), do: "Show Thread"
