@@ -39,9 +39,12 @@ input, textarea {
 	margin-left: 2px;
 }
 
+.postContainer {
+  overflow: hidden;
+}
+
 .postInfo {
   display: block;
-  max-width: 70%;
   background-color: black;
 }
 
@@ -63,6 +66,7 @@ input, textarea {
 }
 
 blockquote {
+  word-break: break-all;
   display: block;
   border: none;
   margin-left: 40px;
