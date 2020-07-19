@@ -216,7 +216,7 @@ defmodule Acab.Channel do
       ** (Ecto.NoResultsError)
 
   """
-  def get_thread!(id), do: Repo.get!(Thread, id)
+  def get_thread!(id), do: Thread.parse_thread(Repo.get!(Thread, id))
 
   @doc """
   Gets a list of threads of a board.
@@ -239,7 +239,8 @@ defmodule Acab.Channel do
 
   defp mid_parse_thread({:error, _reason} = error, _event), do: error
   defp mid_parse_thread({:ok, thread}) do
-    {:ok, Thread.parse_thread(thread)}
+    replies = get_replies(thread.id)
+    {:ok, {Thread.parse_thread(thread), replies}}
   end
 
   @doc """

@@ -24,15 +24,7 @@
 
 <div>
   <div class="postInfo">
-      <input type="checkbox">
-      <span class="threadTitle"><%= @thread.title %></span>
-      <span class="threadAuthor"><%= @thread.author %></span>
-      <span class="threadDatetime"><%= @thread.inserted_at %></span>
-      <span class="threadId">No.<%= @thread.id %></span>
-      
-      <blockquote>
-        <%= @thread.body %>
-      </blockquote>
+      <%= live_component @socket, AcabWeb.ThreadLive.ThreadComponent, board: @board, thread: @thread %>
     </div>
 
     <%= for reply <- @replies do %>

@@ -48,7 +48,19 @@ defmodule AcabWeb.BoardLive.Show do
 
   @impl true
   def handle_info({:reply_created, reply}, socket) do
-    {:noreply, socket}
+    {:noreply, update(socket, :threads, fn threads ->
+      threads = Enum.map(threads, fn {t, r} ->
+        if t.id == reply.thread_id do
+          thread = Channel.get_thread!(reply.thread_id)
+          replies = Channel.get_replies(thread.id)
+          |> Enum.take(-5)
+          
+          {thread, replies}
+        else
+          {t, r}
+        end
+      end)
+    end)}
   end
 
   defp page_title(:show), do: "Show Board"
